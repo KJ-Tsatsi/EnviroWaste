@@ -13,7 +13,7 @@ EnviroWaste is a Spring Boot application that exposes a REST API for clients. As
 1. **Clone the repository:**
 
     ```bash
-    git clone https://github.com/enviro365/waste-sorting-app-backend.git
+    git clone https://github.com/KJ-Tsatsi/EnviroWaste.git
     cd waste-sorting-app-backend
     ```
 
