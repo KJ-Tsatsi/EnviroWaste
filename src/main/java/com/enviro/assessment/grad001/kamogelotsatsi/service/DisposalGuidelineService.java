@@ -50,6 +50,14 @@ public class DisposalGuidelineService {
         guidelineRepository.deleteById(guidelineId);
     }
 
+    public void deleteGuidelineByCategory(String category) {
+        List<DisposalGuideline> guidelines = guidelineRepository.findAllByCategory(category);
+        if (guidelines.isEmpty()) {
+            throw new InvalidEntryException("Category: "+category+" does not exist");
+        }
+        guidelineRepository.deleteByCategory(category);
+    }
+
 
     public DisposalGuideline updateGuideline(Long guidelineId, DisposalGuideline guideline) {
         DisposalGuideline existingGuideline = guidelineRepository.findById(guidelineId).orElseThrow(() ->

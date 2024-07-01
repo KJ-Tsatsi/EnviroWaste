@@ -163,6 +163,11 @@ EnviroWaste is a Spring Boot application that exposes a REST API for clients. As
 - **Endpoint:** `DELETE /api/v1/waste/guidelines/{guidelineId}`
 - **Description:** Delete a specific disposal guideline by its ID.
 
+#### Delete a disposal guideline by category
+
+- **Endpoint:** `DELETE /api/v1/waste/guidelines/category/{category}`
+- **Description:** Delete multiple disposal guidelines with matching waste categories.
+
 #### Update a disposal guideline
 
 - **Endpoint:** `PUT /api/v1/waste/guidelines/{guidelineId}`

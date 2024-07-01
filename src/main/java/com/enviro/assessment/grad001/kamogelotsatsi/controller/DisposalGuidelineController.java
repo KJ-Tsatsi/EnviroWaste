@@ -50,6 +50,11 @@ public class DisposalGuidelineController {
         guidelineService.deleteGuideline(guidelineId);
     }
 
+    @DeleteMapping(path = "/category/{category}")
+    public void deleteGuidelineByCategory(@PathVariable("category") String category) {
+        guidelineService.deleteGuidelineByCategory(category);
+    }
+
     @PutMapping(path = "{guidelineId}")
     public ResponseEntity<DisposalGuideline> updateGuideline(
             @PathVariable("guidelineId") Long guidelineId,
