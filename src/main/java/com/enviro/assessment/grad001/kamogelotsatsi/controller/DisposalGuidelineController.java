@@ -1,5 +1,6 @@
 package com.enviro.assessment.grad001.kamogelotsatsi.controller;
 
+import com.enviro.assessment.grad001.kamogelotsatsi.exceptions.InvalidEntryException;
 import com.enviro.assessment.grad001.kamogelotsatsi.model.DisposalGuideline;
 import com.enviro.assessment.grad001.kamogelotsatsi.service.DisposalGuidelineService;
 import org.springframework.beans.factory.annotation.Autowired;

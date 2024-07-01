@@ -1,5 +1,7 @@
 package com.enviro.assessment.grad001.kamogelotsatsi.service;
 
+import com.enviro.assessment.grad001.kamogelotsatsi.exceptions.InvalidEntryException;
+import com.enviro.assessment.grad001.kamogelotsatsi.exceptions.ValueAlreadyExistsException;
 import com.enviro.assessment.grad001.kamogelotsatsi.model.RecyclingTip;
 import com.enviro.assessment.grad001.kamogelotsatsi.repository.RecylingTipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,7 @@ public class RecyclingTipService {
 
     public RecyclingTip getRecyclingTipById(Long tipId) {
         Optional<RecyclingTip> recyclingTip = tipRepository.findById(tipId);
-        return recyclingTip.orElseThrow(() -> new IllegalArgumentException(
+        return recyclingTip.orElseThrow(() -> new InvalidEntryException(
                 "Tip with id: "+tipId+" does not exist"));
     }
 
@@ -34,7 +36,11 @@ public class RecyclingTipService {
                 recyclingTip.getTip());
 
         if (tipOptional.isPresent()) {
-            throw new IllegalStateException("Recycling Tip already exists");
+            throw new ValueAlreadyExistsException("Recycling Tip already exists");
+        }
+
+        if (recyclingTip.getTip().isEmpty()) {
+            throw new InvalidEntryException("Invalid Request: Recycling Tip cannot be blank");
         }
         tipRepository.save(recyclingTip);
     }
@@ -42,7 +48,7 @@ public class RecyclingTipService {
     public void deleteTip(Long tipId) {
         boolean exists = tipRepository.existsById(tipId);
         if (!exists) {
-            throw new IllegalArgumentException(
+            throw new InvalidEntryException(
                 "Recycling tip with id: "+tipId+" does not exist");
         }
         tipRepository.deleteById(tipId);
@@ -50,7 +56,7 @@ public class RecyclingTipService {
 
     public RecyclingTip updateTip(Long tipId, RecyclingTip recyclingTip) {
         RecyclingTip existingTip = tipRepository.findById(tipId)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new InvalidEntryException(
                         "Tip with id: " + tipId + " does not exist"));
 
         if (recyclingTip.getTip() != null && !recyclingTip.getTip().isEmpty()) {

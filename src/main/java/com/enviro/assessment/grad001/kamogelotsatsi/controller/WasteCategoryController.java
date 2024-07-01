@@ -28,8 +28,8 @@ public class WasteCategoryController {
     @GetMapping(path = "{categoryId}")
     public ResponseEntity<WasteCategory> getWasteCategoryById(
             @PathVariable("categoryId") Long categoryId) {
-            WasteCategory wasteCategory = wasteCategoryService.getWasteCategoryById(categoryId);
-            return ResponseEntity.ok(wasteCategory);
+        WasteCategory wasteCategory = wasteCategoryService.getWasteCategoryById(categoryId);
+        return ResponseEntity.ok(wasteCategory);
     }
 
     @PostMapping

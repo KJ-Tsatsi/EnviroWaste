@@ -1,5 +1,6 @@
 package com.enviro.assessment.grad001.kamogelotsatsi.service;
 
+import com.enviro.assessment.grad001.kamogelotsatsi.exceptions.InvalidEntryException;
 import com.enviro.assessment.grad001.kamogelotsatsi.model.DisposalGuideline;
 import com.enviro.assessment.grad001.kamogelotsatsi.repository.DisposalGuidelineRepository;
 import org.springframework.stereotype.Service;
@@ -22,26 +23,29 @@ public class DisposalGuidelineService {
 
     public DisposalGuideline getGuidelineById(Long guidelineId) {
         Optional<DisposalGuideline> disposalGuideline = guidelineRepository.findById(guidelineId);
-        return disposalGuideline.orElseThrow(() -> new IllegalStateException(
+        return disposalGuideline.orElseThrow(() -> new InvalidEntryException(
                 "Disposal Guideline with id: "+guidelineId+" does not exist"));
     }
 
     public List<DisposalGuideline> getGuidelinesByCategory(String category) {
         List<DisposalGuideline> guidelines = guidelineRepository.findAllByCategory(category);
         if (guidelines.isEmpty()) {
-            throw new IllegalArgumentException("Category: "+category+" does not exist");
+            throw new InvalidEntryException("Category: "+category+" does not exist");
         }
         return guidelines;
     }
 
     public void addNewGuideline(DisposalGuideline guideline) {
+        if (guideline.getGuideline().isEmpty() || guideline.getWasteCategory().isEmpty()) {
+            throw new InvalidEntryException("Invalid Request: Guideline or Category cannot be empty");
+        }
         guidelineRepository.save(guideline);
     }
 
     public void deleteGuideline(Long guidelineId) {
         boolean exists = guidelineRepository.existsById(guidelineId);
         if (!exists) {
-            throw new IllegalArgumentException("Guideline with id: " +guidelineId+ " does not exist");
+            throw new InvalidEntryException("Guideline with id: " +guidelineId+ " does not exist");
         }
         guidelineRepository.deleteById(guidelineId);
     }
@@ -49,7 +53,7 @@ public class DisposalGuidelineService {
 
     public DisposalGuideline updateGuideline(Long guidelineId, DisposalGuideline guideline) {
         DisposalGuideline existingGuideline = guidelineRepository.findById(guidelineId).orElseThrow(() ->
-                new IllegalArgumentException("Guideline with id: " +guidelineId+ " does not exist"));
+                new InvalidEntryException("Guideline with id: " +guidelineId+ " does not exist"));
 
         if (guideline.getGuideline() != null && !guideline.getGuideline().isEmpty()) {
             existingGuideline.setGuideline(guideline.getGuideline());
