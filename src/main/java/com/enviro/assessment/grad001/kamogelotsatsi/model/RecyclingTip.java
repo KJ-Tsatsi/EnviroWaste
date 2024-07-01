@@ -24,6 +24,11 @@ public class RecyclingTip {
         this.tip = tip;
     }
 
+    public RecyclingTip(Long id, String tip) {
+        this.id = id;
+        this.tip = tip;
+    }
+
     public RecyclingTip() {
     }
 

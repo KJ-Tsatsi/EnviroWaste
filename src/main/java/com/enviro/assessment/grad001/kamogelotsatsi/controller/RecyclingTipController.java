@@ -47,6 +47,4 @@ public class RecyclingTipController {
         RecyclingTip updatedTip = tipService.updateTip(tipId, recyclingTip);
         return ResponseEntity.ok(updatedTip);
     }
-
-
 }
