@@ -2,8 +2,11 @@ package com.enviro.assessment.grad001.kamogelotsatsi.controller;
 
 import com.enviro.assessment.grad001.kamogelotsatsi.model.RecyclingTip;
 import com.enviro.assessment.grad001.kamogelotsatsi.service.RecyclingTipService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,8 +34,12 @@ public class RecyclingTipController {
     }
 
     @PostMapping
-    public void addNewTip(@RequestBody RecyclingTip recyclingTip) {
+    public ResponseEntity<?> addNewTip(@Valid @RequestBody RecyclingTip recyclingTip, BindingResult result) {
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body(result.getAllErrors());
+        }
         tipService.addNewTip(recyclingTip);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "{tipId}")
@@ -41,9 +48,13 @@ public class RecyclingTipController {
     }
 
     @PutMapping(path = "{tipId}")
-    public ResponseEntity<RecyclingTip> updateTip(
+    public ResponseEntity<?> updateTip(
             @PathVariable("tipId") Long tipId,
-            @RequestBody RecyclingTip recyclingTip) {
+            @Valid @RequestBody RecyclingTip recyclingTip,
+            BindingResult result) {
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body(result.getAllErrors());
+        }
         RecyclingTip updatedTip = tipService.updateTip(tipId, recyclingTip);
         return ResponseEntity.ok(updatedTip);
     }

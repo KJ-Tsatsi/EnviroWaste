@@ -78,7 +78,7 @@ public class DisposalGuidelineAPITest {
         mockMvc.perform(post("/api/v1/waste/guidelines")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(guideline1)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test

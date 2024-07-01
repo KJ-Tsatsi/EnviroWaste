@@ -63,7 +63,7 @@ public class WasteCategoryAPITest {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/waste")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"category\": \"Agricultural\"}"))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(MockMvcResultMatchers.status().isCreated());
     }
 
     @Test

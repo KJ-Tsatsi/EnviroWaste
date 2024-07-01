@@ -1,6 +1,7 @@
 package com.enviro.assessment.grad001.kamogelotsatsi.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table
@@ -19,6 +20,7 @@ public class WasteCategory {
 
     private Long id;
     @Column(unique = true)
+    @NotBlank(message = "Category cannot be blank")
     private String category;
 
     public WasteCategory(Long id, String category) {

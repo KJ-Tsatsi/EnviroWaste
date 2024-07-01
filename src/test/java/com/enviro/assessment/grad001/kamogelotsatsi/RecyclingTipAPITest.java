@@ -66,7 +66,7 @@ public class RecyclingTipAPITest {
         mockMvc.perform(post("/api/v1/waste/tip")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(newTip)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test

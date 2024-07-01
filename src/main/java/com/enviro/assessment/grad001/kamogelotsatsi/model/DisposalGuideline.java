@@ -1,6 +1,7 @@
 package com.enviro.assessment.grad001.kamogelotsatsi.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table
@@ -17,7 +18,14 @@ public class DisposalGuideline {
             generator = "guideline_sequence"
     )
 
+
     private Long id;
+
+    @NotBlank(message = "Guideline cannot be blank")
+    private String guideline;
+    @NotBlank(message = "Category cannot be blank")
+    private String wasteCategory;
+
 
     public String getWasteCategory() {
         return wasteCategory;
@@ -27,9 +35,6 @@ public class DisposalGuideline {
         this.wasteCategory = wasteCategory;
     }
 
-
-    private String guideline;
-    private String wasteCategory;
 
     public DisposalGuideline(Long id, String guideline, String wasteCategory) {
         this.id = id;

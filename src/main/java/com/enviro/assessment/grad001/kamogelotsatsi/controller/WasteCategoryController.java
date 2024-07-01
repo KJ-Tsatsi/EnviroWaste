@@ -2,12 +2,14 @@ package com.enviro.assessment.grad001.kamogelotsatsi.controller;
 
 import com.enviro.assessment.grad001.kamogelotsatsi.model.WasteCategory;
 import com.enviro.assessment.grad001.kamogelotsatsi.service.WasteCategoryService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/v1/waste")
@@ -33,8 +35,12 @@ public class WasteCategoryController {
     }
 
     @PostMapping
-    public void addNewCategory(@RequestBody WasteCategory wasteCategory) {
+    public ResponseEntity<?> addNewCategory(@Valid @RequestBody WasteCategory wasteCategory, BindingResult result) {
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body(result.getAllErrors());
+        }
         wasteCategoryService.addNewCategory(wasteCategory);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "{categoryId}")
@@ -43,12 +49,14 @@ public class WasteCategoryController {
     }
 
     @PutMapping(path = "{categoryId}")
-    public ResponseEntity<WasteCategory> updateCategory(
+    public ResponseEntity<?> updateCategory(
             @PathVariable("categoryId") Long categoryId,
-            @RequestBody WasteCategory category) {
-        WasteCategory wasteCategory = wasteCategoryService.updateCategory(categoryId, category);
-        return ResponseEntity.ok(wasteCategory);
+            @Valid @RequestBody WasteCategory category,
+            BindingResult result) {
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body(result.getAllErrors());
+        }
+        WasteCategory updatedCategory = wasteCategoryService.updateCategory(categoryId, category);
+        return ResponseEntity.ok(updatedCategory);
     }
-
-
 }

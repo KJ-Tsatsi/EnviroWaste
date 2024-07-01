@@ -1,14 +1,15 @@
 package com.enviro.assessment.grad001.kamogelotsatsi.controller;
 
-import com.enviro.assessment.grad001.kamogelotsatsi.exceptions.InvalidEntryException;
 import com.enviro.assessment.grad001.kamogelotsatsi.model.DisposalGuideline;
 import com.enviro.assessment.grad001.kamogelotsatsi.service.DisposalGuidelineService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/v1/waste/guidelines")
@@ -41,8 +42,12 @@ public class DisposalGuidelineController {
     }
 
     @PostMapping
-    public void addNewGuideline(@RequestBody DisposalGuideline guideline) {
+    public ResponseEntity<?> addNewGuideline(@Valid @RequestBody DisposalGuideline guideline, BindingResult result) {
+        if (result.hasErrors()) {
+            return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
+        }
         guidelineService.addNewGuideline(guideline);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "{guidelineId}")

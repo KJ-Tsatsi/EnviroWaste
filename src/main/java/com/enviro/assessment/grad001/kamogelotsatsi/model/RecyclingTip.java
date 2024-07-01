@@ -1,6 +1,7 @@
 package com.enviro.assessment.grad001.kamogelotsatsi.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table
@@ -18,6 +19,7 @@ public class RecyclingTip {
     )
 
     private Long id;
+    @NotBlank(message = "Recycling tip cannot be blank")
     private String tip;
 
     public RecyclingTip(String tip) {
